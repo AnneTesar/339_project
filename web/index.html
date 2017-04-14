@@ -11,8 +11,13 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/utils/Draggable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/CSSPlugin.min.js"></script>
+
 <script src="js/app.js"></script>
 <script src="js/jquery.ui.rotatable.js"></script>
+<script src="js/jcanvas.min.js"></script>
 
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -27,7 +32,7 @@
   <div ng-app="app" ng-controller="ctrl">
     <div class="container">
 
-      <select ng-model="selected.index" ng-change="displayRoom()">
+      <select ng-model="selected.index" ng-change="displayRoom4()">
         <option ng-repeat="layout in layouts track by $index" value="{{$index}}">{{layout.room.name}}</option>
       </select>
 
@@ -39,11 +44,16 @@
       </div>
       <br>
 
-      <div class="room" hidden>
+      <div class="room" id="room" hidden>
 
 
       </div>
 
+      <canvas id="myCanvas" width="600" height="300" hidden>
+
+      </canvas>
+
+      <button ng-click="updatePlacements()" >Button</button>
 
 
       <br>
@@ -52,5 +62,7 @@
 </div>
 
 </body>
+
+
 
 </html>
