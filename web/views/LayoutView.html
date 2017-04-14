@@ -1,0 +1,30 @@
+ <div class="container">
+
+      <select ng-model="selected.index" ng-change="displayRoom4()">
+        <option ng-repeat="layout in layouts track by $index" value="{{$index}}">{{layout.room.name}}</option>
+      </select>
+
+      <br>
+
+
+      <div class="scale" hidden>
+        one foot
+      </div>
+      <br>
+
+      <div class="room" id="room" hidden>
+
+
+      </div>
+
+      <canvas id="myCanvas" width="600" height="300" hidden>
+
+      </canvas>
+
+      <button ng-click="updatePlacements()" >Update placement</button>
+
+
+      <br>
+      <br>
+    </div>
+</div>
