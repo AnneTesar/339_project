@@ -8,6 +8,14 @@ var app = angular.module('app', ["ngRoute"])
         controller: "LoginController",
         templateUrl: "views/LoginView.html"
     });
+    $routeProvider.when("/CreateAccountView", {
+        controller: "CreateAccountController",
+        templateUrl: "views/CreateAccountView.html"
+    });
+    $routeProvider.when("/NewLayoutView", {
+        controller: "NewLayoutController",
+        templateUrl: "views/NewLayoutView.html"
+    });
     $routeProvider.otherwise({
       redirectTo: "/LoginView"
     });

@@ -220,7 +220,9 @@ angular.module('app')
             // });
 
 
-
+            $scope.newLayout = function() {
+                $location.path('/NewLayoutView')
+            }
 
             function keepInside() {
             //check if the furniture div is outside the room

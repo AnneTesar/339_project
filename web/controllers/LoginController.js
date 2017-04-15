@@ -3,4 +3,8 @@ angular.module('app')
     $scope.login = function(){
         $location.path("/LayoutView");
     }
+
+    $scope.createAccount = function(){
+        $location.path("/CreateAccountView");
+    }
 });

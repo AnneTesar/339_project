@@ -1,30 +1,98 @@
  <div class="container">
 
+      <p>Edit Existing layout</p>
       <select ng-model="selected.index" ng-change="displayRoom4()">
         <option ng-repeat="layout in layouts track by $index" value="{{$index}}">{{layout.room.name}}</option>
       </select>
+      
+       
+
 
       <br>
-
-
       <div class="scale" hidden>
         one foot
       </div>
       <br>
-
       <div class="room" id="room" hidden>
-
-
       </div>
-
       <canvas id="myCanvas" width="600" height="300" hidden>
-
       </canvas>
-
       <button ng-click="updatePlacements()" >Update placement</button>
-
-
+      <button ng-click="newLayout()" >Create a new layout</button>
+      <button id="addFurnitureModal" >Add Furniture</button>
+      <div id="addModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="addFurniture">
+              <h2>Add a furniture piece</h2>
+              <select>
+              </select>
+              <button type="submit" class="btn btn-primary" id = "add" ng-click = "">Add</button>
+            </div>
+          </div>
+        </div>
+      <button id="createFurnitureModal" >Create New Furniture</button>
+        <div id="createModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="createFurniture">
+              <h2>Create a new furniture piece</h2>
+              <input type="text" placeholder="Name" class="form-control" id="furnitureName"><br/>
+              <input type="text" placeholder="length" class="form-control" id="length"><br/>
+              <input type="text" placeholder="width" class="form-control" id="width"><br/>
+              <button type="submit" class="btn btn-primary" id = "create" ng-click = "">Create</button>
+            </div>
+          </div>
+        </div>
       <br>
       <br>
     </div>
 </div>
+
+<script>
+  // Get the modal
+  var createModal = document.getElementById('createModal');
+
+  // Get the button that opens the modal
+  var createBtn = document.getElementById("createFurnitureModal");
+
+  // Get the <span> element that closes the modal
+  var createSpan = document.getElementsByClassName("close")[1];
+
+  // When the user clicks on the button, open the modal 
+  createBtn.onclick = function() {
+      createModal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  createSpan.onclick = function() {
+      createModal.style.display = "none";
+  }
+  // Get the modal
+  var addModal = document.getElementById('addModal');
+
+  // Get the button that opens the modal
+  var addBtn = document.getElementById("addFurnitureModal");
+
+  var addSpan = document.getElementsByClassName("close")[0];
+  // When the user clicks on the button, open the modal 
+  addBtn.onclick = function() {
+      addModal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  addSpan.onclick = function() {
+      addModal.style.display = "none";
+  }
+
+   // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == createModal) {
+          createModal.style.display = "none";
+      }
+      else if(event.target == addModal) {
+          addModal.style.display = "none";
+      }
+  }
+
+</script>
