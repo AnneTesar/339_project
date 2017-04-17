@@ -25,9 +25,10 @@
             <span class="close">&times;</span>
             <div id="addFurniture">
               <h2>Add a furniture piece</h2>
-              <select>
+              <select ng-model = "selectedFurniture">
+                <option ng-repeat="furniture in furniture_pieces" id = 'addFurniture' value="{{furniture.name}}">{{furniture.name}}</option>
               </select>
-              <button type="submit" class="btn btn-primary" id = "add" ng-click = "">Add</button>
+              <button type="submit" class="btn btn-primary" id = "add" ng-click = "addFurnitureFromList(document.getElementById('addFurniture').value)">Add</button>
             </div>
           </div>
         </div>
@@ -37,10 +38,10 @@
             <span class="close">&times;</span>
             <div id="createFurniture">
               <h2>Create a new furniture piece</h2>
-              <input type="text" placeholder="Name" class="form-control" id="furnitureName"><br/>
-              <input type="text" placeholder="length" class="form-control" id="length"><br/>
-              <input type="text" placeholder="width" class="form-control" id="width"><br/>
-              <button type="submit" class="btn btn-primary" id = "create" ng-click = "">Create</button>
+              <input type="text" placeholder="Name" ng-model ="newFName" class="form-control" id="furnitureName"><br/>
+              <input type="text" placeholder="length" ng-model ="newFLength" class="form-control" id="length"><br/>
+              <input type="text" placeholder="width" ng-model ="newFWidth" class="form-control" id="width"><br/>
+              <button type="submit" class="btn btn-primary" id = "create" ng-click = "addFurniture(newFName, newFWidth, newFLength)">Create</button>
             </div>
           </div>
         </div>

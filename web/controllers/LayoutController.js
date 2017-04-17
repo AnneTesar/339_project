@@ -1,20 +1,43 @@
 angular.module('app')
-.controller('LayoutController', function($scope, $location, $http, $rootScope, $filter) {
+.controller('LayoutController', function($scope, $location, $http, $rootScope, $filter,LayoutService) {
     $(document).ready(function() {
             $scope.selected = {};
             var selectedLayout;
 
-            furniture_pieces = [{name:"Table", width:5, height:7}, {name:"Chair", width:2, height:2}];
+            // furniture_pieces = [{name:"Table", width:5, height:7}, {name:"Chair", width:2, height:2}];
 
-            rooms = [{name:"Dining Room", width:20, height:15}, {name:"Living Room", width:20, height:30}];
+            // rooms = [{name:"Dining Room", width:20, height:15}, {name:"Living Room", width:20, height:30}];
 
-            $scope.layouts = [{room:rooms[0], furniture:[{piece:furniture_pieces[1], left:3, top:1, rotate:0},
-                                                        {piece:furniture_pieces[0], left:3, top:3.5, roatate:45},
-                                                        {piece:furniture_pieces[1], left:3, top:11, rotate:30}]},
-                            {room:rooms[1], furniture:[{piece:furniture_pieces[1], left:3, top:2, rotate:0},
-                                                    {piece:furniture_pieces[1], left:3, top:2, rotate:0}]}];
+            // $scope.layouts = [{room:rooms[0], furniture:[{piece:furniture_pieces[1], left:3, top:1, rotate:0},
+            //                                             {piece:furniture_pieces[0], left:3, top:3.5, roatate:45},
+            //                                             {piece:furniture_pieces[1], left:3, top:11, rotate:30}]},
+            //                 {room:rooms[1], furniture:[{piece:furniture_pieces[1], left:3, top:2, rotate:0},
+            //                                         {piece:furniture_pieces[1], left:3, top:2, rotate:0}]}];
 
+            $scope.newFName = ""
+            $scope.newFWidth;
+            $scope.newFLength;
+            $scope.selectedFurniture = "";
+            $scope.furniture_pieces = LayoutService.getFurniture();
+            $scope.rooms = LayoutService.getRooms();
+            $scope.layouts = LayoutService.getLayout();
 
+            $scope.addFurniture = function(){ //only adds to first layout doesnt factor in current layout
+                LayoutService.addFurnitureToRoom(LayoutService.addFurniture($scope.newFName, $scope.newFWidth,  $scope.newFLength));
+                $scope.newFName = ""
+                $scope.newFWidth;
+                $scope.newFLength;
+                $scope.layouts = LayoutService.getLayout();
+                $scope.displayRoom4();
+            }
+
+             $scope.addFurnitureFromList = function(){ //same
+                LayoutService.addFurnitureToRoom(LayoutService.getFurnitureByName($scope.selectedFurniture));
+                $scope.selectedFurniture = "";
+                $scope.layouts = LayoutService.getLayout();
+                $scope.displayRoom4();
+            }
+            
             $scope.displayRoom4 = function() {
             selectedLayout = $scope.layouts[$scope.selected.index];
             window_width = $( window ).width();
