@@ -17,7 +17,7 @@ var app = angular.module('app', ["ngRoute"])
         templateUrl: "views/NewLayoutView.html"
     });
     $routeProvider.otherwise({
-      redirectTo: "/LoginView"
+      redirectTo: "LoginView"
     });
 });
 
