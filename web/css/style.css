@@ -1,0 +1,27 @@
+.scale {
+  border-style: solid;
+  border-width: 5px;
+  border-color: red;
+}
+
+.room {
+  border-style: solid;
+  border-width: 5px;
+  text-align: center;
+  position:relative;
+}
+
+.furniture {
+  border-style: solid;
+  border-width: 3px;
+  position:absolute;
+  cursor: move;
+}
+
+.title {
+
+}
+
+.knob:hover {
+  cursor: pointer;
+}

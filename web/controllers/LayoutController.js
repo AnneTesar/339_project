@@ -4,6 +4,8 @@ angular.module('app')
             $scope.selected = {};
             var selectedLayout;
 
+
+
             // furniture_pieces = [{name:"Table", width:5, height:7}, {name:"Chair", width:2, height:2}];
 
             // rooms = [{name:"Dining Room", width:20, height:15}, {name:"Living Room", width:20, height:30}];
@@ -37,184 +39,112 @@ angular.module('app')
                 $scope.layouts = LayoutService.getLayout();
                 $scope.displayRoom4();
             }
-            
+
             $scope.displayRoom4 = function() {
             selectedLayout = $scope.layouts[$scope.selected.index];
             window_width = $( window ).width();
+            window_height = $( window ).height();
+
             room_display_width = window_width * .75;
+            room_display_height = window_height * .85;
             console.log("Room Display Width: " + room_display_width);
 
-            pixels_per_foot = room_display_width / selectedLayout.room.width;
+            pixels_per_foot_width = room_display_width / selectedLayout.room.width;
+            pixels_per_foot_height = room_display_height / selectedLayout.room.height;
+
+            if (pixels_per_foot_width > pixels_per_foot_height) {
+              pixels_per_foot = pixels_per_foot_height;
+            }
+            else {
+              pixels_per_foot = pixels_per_foot_width;
+            }
+
             console.log("pixels_per_foot: " + pixels_per_foot);
-            $('.scale').width(pixels_per_foot).height(pixels_per_foot).show();
+            //$('.scale').width(pixels_per_foot).height(pixels_per_foot).show();
 
             $('.room').width(pixels_per_foot * selectedLayout.room.width).height(pixels_per_foot * selectedLayout.room.height).show();
+            //$('.room').show();
+            $('.editRoomButtons').show();
 
             $('.room').empty();
             var sum = 0;
             for (i = 0; i < selectedLayout.furniture.length; i++) {
-                $('.room').append( $("<div class=\"furniture\" id=\"" + i +"\">"+ selectedLayout.furniture[i].piece.name +"</div>")
-                                        .width(pixels_per_foot * selectedLayout.furniture[i].piece.width)
-                                        .height(pixels_per_foot * selectedLayout.furniture[i].piece.height));
-                                        //.draggable(  )
-                                        //.rotatable( {snap:true, handle: $(document.createElement('img')).attr('src', 'alternate_rotate.png')})
-                                        //.css({left: pixels_per_foot * selectedLayout.furniture[i].left, top: pixels_per_foot * selectedLayout.furniture[i].top})  );
+              var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+              var svgNS = svg.namespaceURI;
+
+              console.log(selectedLayout.furniture[i]);
+
+              var rect = document.createElementNS(svgNS,'rect');
+              rect.setAttribute('rx',  0);
+              rect.setAttribute('ry',  0);
+              rect.setAttribute('width', pixels_per_foot * selectedLayout.furniture[i].piece.width);
+              rect.setAttribute('height', pixels_per_foot * selectedLayout.furniture[i].piece.height);
+              rect.setAttribute('fill','green');
+              svg.appendChild(rect);
+
+              var circle = document.createElementNS(svgNS,'circle');
+              circle.setAttribute('r', 8);
+              circle.setAttribute('cx',  5);
+              circle.setAttribute('cy', 5);
+              circle.setAttribute('fill','#000000');
+              circle.setAttribute('class', 'knob');
+              svg.appendChild(circle);
+
+              svg.setAttribute('class', 'furniture');
+              svg.setAttribute('width', pixels_per_foot * selectedLayout.furniture[i].piece.width);
+              svg.setAttribute('height', pixels_per_foot * selectedLayout.furniture[i].piece.height);
+              svg.style.left = selectedLayout.furniture[i].x;
+              svg.style.top = selectedLayout.furniture[i].y;
+
+              $('.room').append(svg);
+
 
             }
-            Draggable.create(".furniture", {
-                bounds: document.getElementById("room"),
-                onDragEnd:function() {
-                console.log("drag ended");
-                console.log(this._eventTarget);
-                console.log(this._eventTarget.id);
-                for (i = 0; i < selectedLayout.furniture.length; i++) {
-                    if (this._eventTarget.id == i) {
 
-                        selectedLayout.furniture[i].top = this.endY / pixels_per_foot;
-                        selectedLayout.furniture[i].left = this.endX / pixels_per_foot;
+            var R = Draggable.create( $(".furniture"), { type: "rotation" })[0].disable();
+            var M = Draggable.create( $(".furniture"),{type: "x,y"})[0].enable();
 
-                        console.log("top at : " + this.endY);
-                        console.log("left at : " + this.endX);
-                        console.log("New top: " + selectedLayout.furniture[i].top);
-                        console.log($scope.layouts[0].furniture[i]);
-                    }
-                    }
+            console.log("here");
 
-                }
+            $(".knob").on("click", function(event) {
+              console.log("clicked handle");
+              event.stopPropagation();
+              M.disable();   R.enable().startDrag(event);
             });
 
-            $scope.updatePlacements();
 
-            }
+            $(".furniture").on("mousedown", function(event) {
+              console.log("clicked drag");
+              R.disable();   M.enable().startDrag(event);
+            });
 
 
 
 
-            $scope.displayRoom2 = function() {
-            selectedLayout = $scope.layouts[$scope.selected.index];
 
-            window_width = $( window ).width();
-            room_display_width = window_width * .75;
-            console.log("Room Display Width: " + room_display_width);
-
-            pixels_per_foot = room_display_width / selectedLayout.room.width;
-            console.log("pixels_per_foot: " + pixels_per_foot);
-
-            $('.scale').width(pixels_per_foot).height(pixels_per_foot).show();
-
-            $('#myCanvas').height(pixels_per_foot * selectedLayout.room.height).width(pixels_per_foot * selectedLayout.room.width);
-
-            pixels_per_foot = pixels_per_foot / 2;
-
-            for (i = 0; i < selectedLayout.furniture.length; i++) {
-
-                $('#myCanvas').drawRect({
-                layer: true,
-                draggable: true,
-                bringToFront: true,
-                name: selectedLayout.furniture[i].piece.name,
-                fillStyle: 'steelblue',
-                x: selectedLayout.furniture[i].left * pixels_per_foot,
-                y: selectedLayout.furniture[i].top * pixels_per_foot,
-                width: selectedLayout.furniture[i].piece.width * pixels_per_foot,
-                height: selectedLayout.furniture[i].piece.height * pixels_per_foot,
-                rotate: selectedLayout.furniture[i].rotate
-                });
-
-            }
-
-            }
-
-            $scope.displayRoom3 = function() {
-            selectedLayout = $scope.layouts[$scope.selected.index];
-
-            window_width = $( window ).width();
-            room_display_width = window_width * .75;
-            console.log("Room Display Width: " + room_display_width);
-
-            pixels_per_foot = room_display_width / selectedLayout.room.width;
-            console.log("pixels_per_foot: " + pixels_per_foot);
-
-            $('.scale').width(pixels_per_foot).height(pixels_per_foot).show();
-
-            $('#myCanvas').height(pixels_per_foot * selectedLayout.room.height).width(pixels_per_foot * selectedLayout.room.width);
-
-            pixels_per_foot = pixels_per_foot / 2;
-
-            // $('#myCanvas').drawRect({
-            //   layer: true,
-            //   draggable: true,
-            //   bringToFront: true,
-            //   name: "Table",
-            //   fillStyle: 'steelblue',
-            //   x: 3 * pixels_per_foot,
-            //   y: 6 * pixels_per_foot,
-            //   width: 5 * pixels_per_foot,
-            //   height: 7 * pixels_per_foot,
-            //   rotate: 0
+            // Draggable.create(".furniture", {
+            //     bounds: document.getElementById("room"),
+            //     onDragEnd:function() {
+            //     console.log("drag ended");
+            //     console.log(this._eventTarget);
+            //     console.log(this._eventTarget.id);
+            //     for (i = 0; i < selectedLayout.furniture.length; i++) {
+            //         if (this._eventTarget.id == i) {
+            //
+            //             selectedLayout.furniture[i].top = this.endY / pixels_per_foot;
+            //             selectedLayout.furniture[i].left = this.endX / pixels_per_foot;
+            //
+            //             console.log("top at : " + this.endY);
+            //             console.log("left at : " + this.endX);
+            //             console.log("New top: " + selectedLayout.furniture[i].top);
+            //             console.log($scope.layouts[0].furniture[i]);
+            //         }
+            //         }
+            //
+            //     }
             // });
 
-            $('#myCanvas').drawRect({
-                layer: true,
-                draggable: true,
-                bringToFront: true,
-                name: "Table",
-                fillStyle: 'steelblue',
-                x: 1 * pixels_per_foot,
-                y: 6 * pixels_per_foot,
-                width: 2 * pixels_per_foot,
-                height: 2 * pixels_per_foot,
-                rotate: 45
-            });
-
-
-            }
-
-            $scope.displayRoom = function() {
-            selectedLayout = $scope.layouts[$scope.selected.index];
-            window_width = $( window ).width();
-            room_display_width = window_width * .75;
-            console.log("Room Display Width: " + room_display_width);
-
-            pixels_per_foot = room_display_width / selectedLayout.room.width;
-            console.log("pixels_per_foot: " + pixels_per_foot);
-            $('.scale').width(pixels_per_foot).height(pixels_per_foot).show();
-
-            $('.room').width(pixels_per_foot * selectedLayout.room.width).height(pixels_per_foot * selectedLayout.room.height).show();
-
-            $('.room').empty();
-            var sum = 0;
-            for (i = 0; i < selectedLayout.furniture.length; i++) {
-                $('.room').append( $("<div class=\"furniture\" id=\"" + i +"\">"+ selectedLayout.furniture[i].piece.name +"</div>")
-                                        .width(pixels_per_foot * selectedLayout.furniture[i].piece.width)
-                                        .height(pixels_per_foot * selectedLayout.furniture[i].piece.height)
-                                        .draggable(  )
-                                        .rotatable( {snap:true, handle: $(document.createElement('img')).attr('src', 'alternate_rotate.png')})
-                                        .css({left: pixels_per_foot * selectedLayout.furniture[i].left, top: pixels_per_foot * selectedLayout.furniture[i].top})  );
-
-            }
-
-
-
-
-
-            // selectedLayout.furniture.sort(function(a, b) {
-            //   return b.top - a.top;
-            // })
-            // console.log(selectedLayout.furniture);
-            // for (i = 0; i < selectedLayout.furniture.length; i++) {
-            //   $('.room').append( $("<div class=\"furniture\" id=\"" + i +"\">"+ selectedLayout.furniture[i].piece.name +"</div>")
-            //                           .width(1)
-            //                           .height(1)
-            //                           .draggable(  )
-            //                           .rotatable( {snap:true, handle: $(document.createElement('img')).attr('src', 'alternate_rotate.png')})
-            //                           .css({left: pixels_per_foot * selectedLayout.furniture[i].left, top: pixels_per_foot * selectedLayout.furniture[i].top})  );
-            //
-            // }
-            // for (i = 0; i < selectedLayout.furniture.length; i++) {
-            //   $('#' + i).width(pixels_per_foot * selectedLayout.furniture[i].piece.width).height(pixels_per_foot * selectedLayout.furniture[i].piece.height);
-            //   console.log($('#' + i));
-            // }
+            $scope.updatePlacements();
 
             }
 
@@ -247,10 +177,6 @@ angular.module('app')
                 $location.path('/NewLayoutView')
             }
 
-            function keepInside() {
-            //check if the furniture div is outside the room
-            //move it back inside
-            }
 
     });
 });

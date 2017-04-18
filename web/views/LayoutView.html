@@ -1,53 +1,77 @@
  <div class="container">
 
-      <p>Edit Existing layout</p>
-      <select ng-model="selected.index" ng-change="displayRoom4()">
+   <div class="row">
+     <div class="col-md-12">
+
+       <div class="title">
+
+       <div class="w3-panel w3-border-bottom w3-border-green">
+          <h3>Layout Manager</h3>
+       </div>
+
+
+
+      <select ng-model="selected.index" ng-change="displayRoom4()" class="w3-select">
+        <option value="" disabled selected>Choose an Existing Layout</option>
         <option ng-repeat="layout in layouts track by $index" value="{{$index}}">{{layout.room.name}}</option>
       </select>
-      
-       
 
-
+    </div>
       <br>
-      <div class="scale" hidden>
+      <br>
+
+      <!-- <div class="scale" hidden>
         one foot
-      </div>
+      </div> -->
       <br>
+
+
       <div class="room" id="room" hidden>
       </div>
-      <canvas id="myCanvas" width="600" height="300" hidden>
-      </canvas>
-      <button ng-click="updatePlacements()" >Update placement</button>
-      <button ng-click="newLayout()" >Create a new layout</button>
-      <button id="addFurnitureModal" >Add Furniture</button>
-      <div id="addModal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <div id="addFurniture">
-              <h2>Add a furniture piece</h2>
-              <select ng-model = "selectedFurniture">
-                <option ng-repeat="furniture in furniture_pieces" id = 'addFurniture' value="{{furniture.name}}">{{furniture.name}}</option>
-              </select>
-              <button type="submit" class="btn btn-primary" id = "add" ng-click = "addFurnitureFromList(document.getElementById('addFurniture').value)">Add</button>
-            </div>
-          </div>
-        </div>
-      <button id="createFurnitureModal" >Create New Furniture</button>
-        <div id="createModal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <div id="createFurniture">
-              <h2>Create a new furniture piece</h2>
-              <input type="text" placeholder="Name" ng-model ="newFName" class="form-control" id="furnitureName"><br/>
-              <input type="text" placeholder="length" ng-model ="newFLength" class="form-control" id="length"><br/>
-              <input type="text" placeholder="width" ng-model ="newFWidth" class="form-control" id="width"><br/>
-              <button type="submit" class="btn btn-primary" id = "create" ng-click = "addFurniture(newFName, newFWidth, newFLength)">Create</button>
-            </div>
-          </div>
-        </div>
+
+
       <br>
       <br>
+
+      <div class="editRoomButtons" hidden>
+        <button ng-click="updatePlacements()" class="w3-button w3-round-large w3-green">Save Changes</button>
+        <button id="addFurnitureModal" class="w3-button w3-round-large w3-green">Add Furniture to this Layout</button>
+            <div id="addModal" class="modal">
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <div id="addFurniture">
+                    <h2>Add a furniture piece</h2>
+                    <select ng-model = "selectedFurniture">
+                      <option ng-repeat="furniture in furniture_pieces" id = 'addFurniture' value="{{furniture.name}}">{{furniture.name}}</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary" id = "add" ng-click = "addFurnitureFromList(document.getElementById('addFurniture').value)">Add</button>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+
+      <br>
+      <br>
+
+      <button ng-click="newLayout()" class="w3-button w3-round-large w3-khaki">Create a new layout</button>
+      <button id="createFurnitureModal" class="w3-button w3-round-large w3-khaki">Create New Furniture</button>
+            <div id="createModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="createFurniture">
+                  <h2>Create a new furniture piece</h2>
+                  <input type="text" placeholder="Name" ng-model ="newFName" class="form-control" id="furnitureName"><br/>
+                  <input type="text" placeholder="length" ng-model ="newFLength" class="form-control" id="length"><br/>
+                  <input type="text" placeholder="width" ng-model ="newFWidth" class="form-control" id="width"><br/>
+                  <button type="submit" class="btn btn-primary" id = "create" ng-click = "addFurniture(newFName, newFWidth, newFLength)">Create</button>
+                </div>
+              </div>
+            </div>
+
     </div>
+</div>
+
 </div>
 
 <script>
@@ -60,7 +84,7 @@
   // Get the <span> element that closes the modal
   var createSpan = document.getElementsByClassName("close")[1];
 
-  // When the user clicks on the button, open the modal 
+  // When the user clicks on the button, open the modal
   createBtn.onclick = function() {
       createModal.style.display = "block";
   }
@@ -76,7 +100,7 @@
   var addBtn = document.getElementById("addFurnitureModal");
 
   var addSpan = document.getElementsByClassName("close")[0];
-  // When the user clicks on the button, open the modal 
+  // When the user clicks on the button, open the modal
   addBtn.onclick = function() {
       addModal.style.display = "block";
   }
