@@ -1,8 +1,9 @@
 <?php
     $postdata = file_get_contents("php://input");
     $request = json_decode($postdata);
-    $username = $request->username;
-    $password = $request->password;
+    $name = $request->name;
+    $width = $request->width;
+    $height = $request->height;
     
     session_start();
 
@@ -23,18 +24,8 @@
 
     $data = new StdClass();
 
-    $sql = "SELECT * FROM users WHERE username='". $username . "';";
+    $sql = "INSERT INTO furniture VALUES (DEFAULT, '" . $name . "', '" . $_SESSION["username"] . "', '" . $width . "', '" . $height . "');";
     $result = $conn->query($sql);
-
-    if ($result->num_rows == 0) {
-        $sql = "INSERT INTO users VALUES ('" . $username . "', '" . $password . "');";
-        $result = $conn->query($sql);
-        $_SESSION["username"] = $username;
-        echo "Success";
-    }
-    else {
-        echo "Failed";
-    }
 
     $conn->close();
 ?>

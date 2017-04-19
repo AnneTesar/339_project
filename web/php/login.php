@@ -25,12 +25,12 @@
 
     $sql = "SELECT * FROM users WHERE username='". $username . "' AND userPassword='". $password . "';";
     $result = $conn->query($sql);
-    $user = array();
 
     if ($result->num_rows == 0) {
         echo "Failed";
     }
     else {
+        $_SESSION["username"] = $username;
         echo "Success";
     }
 
