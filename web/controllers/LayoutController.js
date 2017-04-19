@@ -80,6 +80,7 @@ angular.module('app')
               rect.setAttribute('width', pixels_per_foot * selectedLayout.furniture[i].piece.width);
               rect.setAttribute('height', pixels_per_foot * selectedLayout.furniture[i].piece.height);
               rect.setAttribute('fill','green');
+              rect.setAttribute('class', 'shape');
               svg.appendChild(rect);
 
               var circle = document.createElementNS(svgNS,'circle');
@@ -91,10 +92,11 @@ angular.module('app')
               svg.appendChild(circle);
 
               svg.setAttribute('class', 'furniture');
+              svg.setAttribute('id', i);
               svg.setAttribute('width', pixels_per_foot * selectedLayout.furniture[i].piece.width);
               svg.setAttribute('height', pixels_per_foot * selectedLayout.furniture[i].piece.height);
-              svg.style.left = selectedLayout.furniture[i].x;
-              svg.style.top = selectedLayout.furniture[i].y;
+              svg.style.left = pixels_per_foot * selectedLayout.furniture[i].left;
+              svg.style.top = pixels_per_foot * selectedLayout.furniture[i].top;
 
               $('.room').append(svg);
 
@@ -108,19 +110,40 @@ angular.module('app')
 
             $(".knob").on("click", function(event) {
               console.log("clicked handle");
-              event.stopPropagation();
-              M.disable();   R.enable().startDrag(event);
+              //event.stopPropagation();
+              Draggable.create( $(this).parent(), { type: "rotation" })[0];
+              //M.disable();   R.enable().startDrag(event);
             });
 
 
-            $(".furniture").on("mousedown", function(event) {
+            $(".shape").on("click", function(event) {
               console.log("clicked drag");
-              R.disable();   M.enable().startDrag(event);
+              Draggable.create( $(this).parent(),{type: "x,y"})[0].endDrag(updateNewPlacement($(this).parent()));
+              //R.disable();   M.enable().startDrag(event);
             });
 
 
+            function updateNewPlacement(thingy) {
+              console.log(thingy);
+              console.log(thingy.position());
+              for (i = 0; i < selectedLayout.furniture.length; i++) {
+                  if (thingy[0].id == i) {
 
+                    console.log(thingy.position().top / pixels_per_foot);
 
+                      selectedLayout.furniture[i].top = thingy.position().top / pixels_per_foot;
+                      selectedLayout.furniture[i].left = thingy.position().left / pixels_per_foot;
+                      selectedLayout.furniture[i].rotate = this.rotation;
+
+                      console.log("top at : " + thingy.position().top);
+                      console.log("left at : " + thingy.position().left);
+                      console.log("rotation : " + this.rotation);
+                      //console.log("New top: " + selectedLayout.furniture[i].top);
+                      console.log(selectedLayout.furniture[i]);
+                  }
+              }
+
+            }
 
             // Draggable.create(".furniture", {
             //     bounds: document.getElementById("room"),
@@ -133,9 +156,11 @@ angular.module('app')
             //
             //             selectedLayout.furniture[i].top = this.endY / pixels_per_foot;
             //             selectedLayout.furniture[i].left = this.endX / pixels_per_foot;
+            //             selectedLayout.furniture[i].rotation = this.rotation;
             //
             //             console.log("top at : " + this.endY);
             //             console.log("left at : " + this.endX);
+            //             console.log("rotation : " + this.rotation);
             //             console.log("New top: " + selectedLayout.furniture[i].top);
             //             console.log($scope.layouts[0].furniture[i]);
             //         }

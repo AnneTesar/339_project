@@ -7,11 +7,11 @@ angular.module('app')
 
     var rooms = [{name:"Dining Room", width:20, height:15}, {name:"Living Room", width:20, height:30}];
 
-    var layouts = [{room:rooms[0], furniture:[{piece:furniture_pieces[1], x:3, y:1, rotate:0},
-                                                {piece:furniture_pieces[0], x:3, y:3.5, rotate:45},
-                                                {piece:furniture_pieces[1], x:3, y:11, rotate:30}]},
-                    {room:rooms[1], furniture:[{piece:furniture_pieces[1], x:3, y:2, rotate:0},
-                                            {piece:furniture_pieces[1], x:3, y:2, rotate:0}]}];
+    var layouts = [{room:rooms[0], furniture:[{piece:furniture_pieces[1], left:3, top:1, rotate:0},
+                                                {piece:furniture_pieces[0], left:3, top:3.5, rotate:45},
+                                                {piece:furniture_pieces[1], left:3, top:11, rotate:30}]},
+                    {room:rooms[1], furniture:[{piece:furniture_pieces[1], left:3, top:2, rotate:0},
+                                            {piece:furniture_pieces[1], left:3, top:2, rotate:0}]}];
 
     var addFurniture = function(name, width, height){
         furniture_pieces.push({name:name, width:width, height:height});
@@ -23,7 +23,7 @@ angular.module('app')
     }
 
     var addFurnitureToRoom = function(furnitureNumber){
-        layouts[0].furniture.push({piece:furniture_pieces[furnitureNumber],x:5, y:2, rotate:0 });
+        layouts[0].furniture.push({piece:furniture_pieces[furnitureNumber],left:5, top:2, rotate:0 });
     }
 
     var getLayout = function(layoutNumber){
