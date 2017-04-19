@@ -1,7 +1,6 @@
 angular.module('app')
-.controller('CreateAccountController', function ($scope, $location, $window, $http) {
+.controller('CreateAccountController', function ($scope, $location, $http) {
     $scope.createAccount = function(){
-        url='http://localhost/reg/far_submit.php';
         var valid = true;
         if($scope.username == null) {
             $("#username_alert").show();
