@@ -1,8 +1,11 @@
 
 <div id="login">
     <h2>Sign Up or Login</h2>
-    <input type="text" placeholder="Username" class="form-control" id="email"><br/>
-    <input type="password" placeholder="Password" class="form-control" id="password"><br/>
+    <input type="text" placeholder="Username" class="form-control" id="username" ng-model="username"><br/>
+    <input type="password" placeholder="Password" class="form-control" id="password" ng-model="password"><br/>
     <button type="submit" class="btn btn-primary" id = "submit" ng-click = "login()">Login</button>
     <button type="submit" class="btn btn-primary" id = "submit" ng-click = "createAccount()">Sign Up</button>
+    <div id="username_alert" style="display: none">Please enter a username</div>
+    <div id="blank_password_alert" style="display: none">Please enter a password</div>
+    <div id="invalid_login_alert" style="display: none">Invalid login information</div>
 </div>

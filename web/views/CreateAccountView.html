@@ -1,7 +1,11 @@
 <div id="login">
     <h2>Create an account</h2>
-    <input type="text" placeholder="Username" class="form-control" id="username"><br/>
-    <input type="password" placeholder="Password" class="form-control" id="password"><br/>
-    <input type="password" placeholder="Confirm Password" class="form-control" id="confirm"><br/>
+    <input type="text" placeholder="Username" class="form-control" id="username" ng-model="username"><br/>
+    <input type="password" placeholder="Password" class="form-control" id="password" ng-model="password"><br/>
+    <input type="password" placeholder="Confirm Password" class="form-control" id="confirm" ng-model="confirm"><br/>
     <button type="submit" class="btn btn-primary" id = "submit" ng-click = "createAccount()">Submit</button>
+    <div id="username_alert" style="display: none">Please enter a username</div>
+    <div id="blank_password_alert" style="display: none">Please enter a password and confirm it</div>
+    <div id="no_match_alert" style="display: none">Your passwords do not match</div>
+    <div id="username_taken_alert" style="display: none">An account already exists with that username</div>
 </div>

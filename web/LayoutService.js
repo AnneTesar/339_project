@@ -1,5 +1,5 @@
 angular.module('app')
-.service('LayoutService', function(){
+.service('LayoutService', function($http){
     selected = {};
     var selectedLayout;
 
@@ -14,8 +14,26 @@ angular.module('app')
                                             {piece:furniture_pieces[1], left:3, top:2, rotate:0}]}];
 
     var addFurniture = function(name, width, height){
+        addFurnitureToDatabase(name, width, height);
         furniture_pieces.push({name:name, width:width, height:height});
         return furniture_pieces.length-1;
+    }
+
+    var addFurnitureToDatabase = function(name, width, height) {
+        var request = $http({
+                method: "post",
+                url: "php/saveFurniture.php",
+                data: {
+                    name: name,
+                    width: width,
+                    height: height
+                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).success(function (data) {
+                
+            }).error(function (data) {
+                console.log("error");
+            });        
     }
 
     var addRooms = function(name, width, height){
